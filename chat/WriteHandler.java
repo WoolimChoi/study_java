@@ -21,23 +21,32 @@ public class WriteHandler implements Runnable{
         try(socket;
             output) {
             Scanner scanner = new Scanner(System.in);
-            System.out.print("/join (name) 입력\n");
-            String sendName = scanner.nextLine();
-            output.writeUTF(sendName);
+            System.out.print("Enter /join (name): ");
+            String name = enterName(scanner);
+            output.writeUTF(name);
 
             while (true) {
-                Thread.sleep(1000); //입장 완료 문자 대기
-                System.out.println("/message || /change (name) || /users || /exit");
 
                 String toSend = scanner.nextLine();
                 output.writeUTF(toSend);
 
                 if (toSend.equals("/exit")) break;
             }
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException e) {
             log(e);
         }
 
      }
+
+    private String enterName(Scanner scanner) {
+        String name;
+        do {
+            name = scanner.nextLine();
+            if (name.startsWith("/join ")) break;
+            System.out.println("잘못된 입력입니다, 다시 입력하세요.");
+        } while (true);
+
+        return name;
+    }
 }
 
