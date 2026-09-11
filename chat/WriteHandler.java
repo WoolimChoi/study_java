@@ -18,7 +18,8 @@ public class WriteHandler implements Runnable{
 
     @Override
     public void run() {
-        try {
+        try(socket;
+            output) {
             Scanner scanner = new Scanner(System.in);
             System.out.print("/join (name) 입력\n");
             String sendName = scanner.nextLine();
@@ -35,15 +36,8 @@ public class WriteHandler implements Runnable{
             }
         } catch (IOException | InterruptedException e) {
             log(e);
-        } finally {
-            try {
-                Thread.sleep(1000); //input.close() 완료할 때까지 대기
-                output.close();
-                socket.close();
-            } catch (InterruptedException | IOException e) {
-                log(e);
-            }
-
         }
-    }
+
+     }
 }
+

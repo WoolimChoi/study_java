@@ -8,18 +8,22 @@ import static chat.MyLogger.log;
 public class ReadHandler implements Runnable{
 
     private final DataInputStream input;
+    private final Socket socket;
 
-    public ReadHandler(DataInputStream input) {
+    public ReadHandler(DataInputStream input, Socket socket) {
         this.input = input;
+        this.socket = socket;
     }
 
     @Override
     public void run() {
-        try (input) {
+        try (socket;
+             input) {
+
             while (true) {
                 String received = input.readUTF();
                 log(received);
-                if (received.contains("연결 종료")) break;
+                if (received.equals("/exit")) break;
 
             }
         } catch (IOException e) {
