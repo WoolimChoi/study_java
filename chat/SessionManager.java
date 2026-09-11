@@ -22,7 +22,17 @@ public class SessionManager {
         sessions.clear();
     }
 
-    public List<Session> getSessions() {
-        return sessions;
+    public synchronized void sendMessageToAll(String message) {
+        for (Session session : sessions) {
+            session.sendMessage(message);
+        }
+    }
+
+    public synchronized void sendJoinMessageToAll(String name) {
+        for (Session session : sessions) {
+            if (session.getName() != null) {
+                session.sendMessage(name + "님이 입장했습니다.");
+            }
+        }
     }
 }
