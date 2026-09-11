@@ -23,7 +23,7 @@ public class Client {
             WriteHandler writeHandler = new WriteHandler(output, socket);
             Thread writeThread = new Thread(writeHandler, "writeThread");
 
-            ReadHandler readHandler = new ReadHandler(input);
+            ReadHandler readHandler = new ReadHandler(input, socket);
             Thread readThread = new Thread(readHandler, "readThread");
 
             writeThread.start();
