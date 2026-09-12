@@ -34,6 +34,10 @@ public class Session implements Runnable{
 
             while (true) {
                 received = input.readUTF();
+                if (received.equals("/exit")) {
+                    sessionManager.sendExitMessageToAll(name);
+                    break;
+                }
 
             }
         } catch (IOException e) {
