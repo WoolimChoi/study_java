@@ -27,13 +27,12 @@ public class Session implements Runnable{
     @Override
     public void run() {
         try {
-            String received = input.readUTF();
-            name = received.substring(6);
+            name = input.readUTF();
             log(name + "님 채팅 입장");
             sessionManager.sendJoinMessageToAll(name);
 
             while (true) {
-                received = input.readUTF();
+                String received = input.readUTF();
                 if (received.equals("/exit")) {
                     sessionManager.sendExitMessageToAll(name);
                     break;

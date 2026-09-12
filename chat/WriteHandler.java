@@ -21,7 +21,6 @@ public class WriteHandler implements Runnable{
         try(socket;
             output) {
             Scanner scanner = new Scanner(System.in);
-            System.out.print("Enter /join (name): ");
             String name = enterName(scanner);
             output.writeUTF(name);
 
@@ -39,11 +38,23 @@ public class WriteHandler implements Runnable{
      }
 
     private String enterName(Scanner scanner) {
-        String name;
+        String joinMessage, command, name;
         do {
-            name = scanner.nextLine();
-            if (name.startsWith("/join ")) break;
-            System.out.println("잘못된 입력입니다, 다시 입력하세요.");
+            try {
+                System.out.print("Enter /join@name: ");
+                joinMessage = scanner.nextLine();
+                String[] split = joinMessage.split("@", 2);
+                command = split[0];
+                name = split[1].trim();
+
+                if (!command.equals("/join")) {
+                    System.out.println("잘못된 명령어입니다, 다시 입력하세요");
+                } else if (name.isBlank()) {
+                    System.out.println("이름은 공백일 수 없습니다, 다시 입력하세요");
+                } else break;
+            } catch (Exception e) {
+                System.out.println("잘못된 입력입니다, 다시 입력하세요");
+            }
         } while (true);
 
         return name;
