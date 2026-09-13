@@ -23,7 +23,7 @@ public class ReadHandler implements Runnable{
 
             while (true) {
                 String received = input.readUTF();
-                log(received);
+                System.out.println(received);
                 if (received.equals("/exit")) break;
 
             }

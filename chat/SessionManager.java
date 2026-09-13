@@ -2,6 +2,8 @@ package chat;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class SessionManager {
 
@@ -22,19 +24,15 @@ public class SessionManager {
         sessions.clear();
     }
 
-    public synchronized void sendJoinMessageToAll(String name) {
+    public synchronized void broadcast(String name, Supplier<String> supplier) {
         for (Session session : sessions) {
             if (session.getName() != null) {
-                session.sendMessage(name + "님이 입장했습니다.");
+                session.sendMessage(name + supplier.get());
             }
         }
     }
 
-    public synchronized void sendExitMessageToAll(String name) {
-        for (Session session : sessions) {
-            if (session.getName() != null) {
-                session.sendMessage(name + "님이 방을 나갔습니다.");
-            }
-        }
+    public List<Session> getSessions() {
+        return sessions;
     }
 }

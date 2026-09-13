@@ -13,15 +13,17 @@ public class Session implements Runnable{
     private final DataInputStream input;
     private final DataOutputStream output;
     private final SessionManager sessionManager;
+    private final CommandManager commandManager;
     private boolean closed = false;
     private String name;
 
-    public Session(Socket socket, SessionManager sessionManager) throws IOException {
+    public Session(Socket socket, SessionManager sessionManager, CommandManager commandManager) throws IOException {
         this.socket = socket;
         input = new DataInputStream(socket.getInputStream());
         output = new DataOutputStream(socket.getOutputStream());
         this.sessionManager = sessionManager;
         sessionManager.add(this);
+        this.commandManager = commandManager;
     }
 
     @Override
@@ -29,15 +31,15 @@ public class Session implements Runnable{
         try {
             name = input.readUTF();
             log(name + "님 채팅 입장");
-            sessionManager.sendJoinMessageToAll(name);
+            sessionManager.broadcast(name, () -> "님이 입장했습니다.");
 
             while (true) {
                 String received = input.readUTF();
                 if (received.equals("/exit")) {
-                    sessionManager.sendExitMessageToAll(name);
+                    sessionManager.broadcast(name, () -> "님이 방을 나갔습니다.");
                     break;
                 }
-
+                commandManager.findAndRunCommand(received, this, sessionManager);
             }
         } catch (IOException e) {
             log(e);
@@ -65,5 +67,9 @@ public class Session implements Runnable{
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
