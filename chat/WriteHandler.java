@@ -29,7 +29,7 @@ public class WriteHandler implements Runnable{
                 String toSend = scanner.nextLine();
                 output.writeUTF(toSend);
 
-                if (toSend.equals("/exit")) break;
+                if (toSend.trim().equals("/exit")) break;
             }
         } catch (IOException e) {
             log(e);

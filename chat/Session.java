@@ -35,7 +35,7 @@ public class Session implements Runnable{
 
             while (true) {
                 String received = input.readUTF();
-                if (received.equals("/exit")) {
+                if (received.trim().equals("/exit")) {
                     sessionManager.broadcast(name, () -> "님이 방을 나갔습니다.");
                     break;
                 }

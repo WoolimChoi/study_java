@@ -24,11 +24,10 @@ public class ReadHandler implements Runnable{
             while (true) {
                 String received = input.readUTF();
                 System.out.println(received);
-                if (received.equals("/exit")) break;
 
             }
         } catch (IOException e) {
-            log(e);
+            System.out.println("서버가 비정상 종료되었습니다. /exit을 입력해 방을 나가주세요");
         }
     }
 }
