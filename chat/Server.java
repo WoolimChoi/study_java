@@ -1,6 +1,7 @@
 package chat;
 
 import chat.command.ChangeNameCommand;
+import chat.command.SendUserListCommand;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -19,6 +20,7 @@ public class Server {
         SessionManager sessionManager = new SessionManager();
         CommandManager commandManager = new CommandManager();
         commandManager.add("/change", new ChangeNameCommand());
+        commandManager.add("/users", new SendUserListCommand());
         log("서버 소켓 시작 - 리스닝 포트: " + PORT);
 
         ShutdownHook shutdownHook = new ShutdownHook(serverSocket, sessionManager);
